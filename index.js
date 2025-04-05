@@ -1,14 +1,16 @@
+require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 
-// Remplace avec ton bot token
-const TOKEN = 'TMTM1ODAzNjE1NzcwMjYwNjg5OA.Gwa73i.Vs_qkmOjfd1PFRTeE3TQdIyTjIMiAXa4lJYMJA';
-
-const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
-});
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.once('ready', () => {
-  console.log(`✅ Bot connecté en ligne en tant que ${client.user.tag}`);
+    console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.login(TOKEN);
+client.on('messageCreate', message => {
+    if (message.content === '!ping') {
+        message.channel.send('Pong!');
+    }
+});
+
+client.login(process.env.DISCORD_TOKEN);
